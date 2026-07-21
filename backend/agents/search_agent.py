@@ -1,9 +1,10 @@
+from candidate.candidate import Candidate
 from graph.graph import Graph
 from agents.agent import Agent
 
 
 class SearchAgent(Agent):
-    def __init__(self, budget, job, candidates):
+    def __init__(self, budget: str, job: int, candidates: list[Candidate]):
         super().__init__(budget, job, candidates)
         self.graph = Graph(self.candidates)
 
