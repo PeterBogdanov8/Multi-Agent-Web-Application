@@ -3,6 +3,7 @@ from math import log
 from fastapi import FastAPI
 
 from agent_types.agent_type import AgentType
+from agents.genetic_agent import GeneticAgent
 from agents.search_agent import SearchAgent
 from agents.simulated_annealing_agent import SimulatedAnnealingAgent
 from candidate.candidate_loader import CandidateLoader
@@ -22,4 +23,7 @@ def get_single_agent_candidates(budget: int, job: str, agent_type: AgentType):
         case AgentType.SearchAgentType:
             search_agent = SearchAgent(budget, job, candidates)
             solution = search_agent.expected_employer_vs_employee_pay_search()
+        case AgentType.GeneticAgentType:
+            genetic_agent = GeneticAgent(budget, job, candidates)
+            solution = genetic_agent.choose_candidates(True, 0.02, 20)
     return solution
