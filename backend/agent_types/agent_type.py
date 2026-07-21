@@ -5,5 +5,6 @@ class AgentType(str, Enum):
     SimulatedAnnealingAgentType = "SimulatedAnnealingAgent"
     SearchAgentType = "SearchAgent"
     GeneticAgentType = "GeneticAgent"
+    DynamicProgrammingAgentType = "DynamicProgrammingAgent"
 
     
