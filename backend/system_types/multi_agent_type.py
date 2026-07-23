@@ -2,6 +2,6 @@ from enum import Enum
 
 
 class MultiAgentType(str, Enum):
-    HomogeneousMultiAgentType = "HomogeneousMultiAgent",
+    DiverseMultiAgentType = "DiverseMultiAgent",
     GeneticMultiAgentType = "GeneticMultiAgent",
     SimulatedAnnealingMultiAgentType = "SimulatedAnnealingMultiAgent"

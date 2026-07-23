@@ -69,7 +69,7 @@ class MultiAgentSystem:
             elif self.multi_agent_type == MultiAgentType.GeneticMultiAgentType:
                 threads.append(self.get_genetic_algorithm_process(fifo_queue, task, num_genetic_solutions))
                 num_genetic_solutions += 1
-            elif self.multi_agent_type == MultiAgentType.HomogeneousMultiAgentType:
+            elif self.multi_agent_type == MultiAgentType.DiverseMultiAgentType:
                 if num_task % 4 == 0:
                     threads.append(self.get_dynamic_programming_algorithm_process(fifo_queue, task))
                 elif num_task % 2 == 0:
