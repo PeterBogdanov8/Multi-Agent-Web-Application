@@ -2,6 +2,8 @@ import random
 
 from agents.agent import Agent
 from candidate.candidate import Candidate
+from task.solution_task import SolutionTask
+from task.task import Task
 
 
 class GeneticAgent(Agent):
@@ -10,6 +12,11 @@ class GeneticAgent(Agent):
         self.chromosomes = []
         self.num_chromosomes = 0
         self.mutation_rate = 0
+
+    def choose_candidates_task(self, queue, use_one_point_crossover: bool, mutation_rate: float, population_size: int):
+        task = Task(self.budget, self.job)
+        solution = self.choose_candidates(use_one_point_crossover, mutation_rate, population_size)
+        queue.put(SolutionTask(task, solution))
 
     def create_chromosome(self, use_one_point_crossover: bool):
         chromosome = []
