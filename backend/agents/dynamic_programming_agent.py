@@ -3,12 +3,19 @@ import copy
 from candidate.candidate import Candidate
 from graph.graph import Graph
 from agents.agent import Agent
+from task.solution_task import SolutionTask
+from task.task import Task
 
 
 class DynamicProgrammingAgent(Agent):
     def __init__(self, budget: int, job: str, candidates: list[Candidate]):
         super().__init__(budget, job, candidates)
         self.graph = Graph(self.candidates)
+
+    def solve_task(self, queue):
+        task = Task(self.budget, self.job)
+        solution = self.solve_problem()
+        queue.put(SolutionTask(task, solution))
 
     def solve_problem(self):
         solutions = []

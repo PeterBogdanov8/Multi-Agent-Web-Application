@@ -1,12 +1,27 @@
 from candidate.candidate import Candidate
 from graph.graph import Graph
 from agents.agent import Agent
+from task.solution_task import SolutionTask
+from task.task import Task
 
 
 class SearchAgent(Agent):
     def __init__(self, budget: str, job: int, candidates: list[Candidate]):
         super().__init__(budget, job, candidates)
         self.graph = Graph(self.candidates)
+        self.task = Task(self.budget, self.job)
+
+    def best_first_search_task(self, queue):
+        solution = self.best_first_search()
+        queue.put(SolutionTask(self.task, solution))
+
+    def cheap_first_search_task(self, queue):
+        solution = self.cheap_first_search()
+        queue.put(SolutionTask(self.task, solution))
+
+    def expected_employer_vs_employee_pay_search_task(self, queue):
+        solution = self.expected_employer_vs_employee_pay_search()
+        queue.put(SolutionTask(self.task, solution))
 
     def get_initial_candidate(self):
         reward = 0

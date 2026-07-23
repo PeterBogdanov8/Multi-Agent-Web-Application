@@ -3,12 +3,19 @@ from math import exp
 
 from agents.agent import Agent
 from candidate.candidate import Candidate
+from task.solution_task import SolutionTask
+from task.task import Task
 
 
 class SimulatedAnnealingAgent(Agent):
     def __init__(self, budget: int, job: str, candidates: list[Candidate]):
         super().__init__(budget, job, candidates)
         self.solution = []
+
+    def solve_task(self, queue, schedule):
+        task = Task(self.budget, self.job)
+        solution = self.solve_problem(schedule)
+        queue.put(SolutionTask(task, solution))
 
     def solve_problem(self, schedule):
         self.historical_rewards = []
