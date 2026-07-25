@@ -10,10 +10,22 @@ from agents.search_agent import SearchAgent
 from agents.simulated_annealing_agent import SimulatedAnnealingAgent
 from candidate.candidate_loader import CandidateLoader
 from task.task import Task
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+origins = [
+    "http://localhost:4200",
+]
 candidate_loader = CandidateLoader('data/candidates.json')
 candidates = candidate_loader.get_candidates()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 @app.get("/get-single-agent-candidates/{budget}/{job}/{agent_type}")
 def get_single_agent_candidates(budget: int, job: str, agent_type: AgentType):
