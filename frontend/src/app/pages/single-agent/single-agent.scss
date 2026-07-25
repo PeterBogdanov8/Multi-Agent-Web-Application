@@ -7,7 +7,7 @@
     font-size: large;
 }
 
-.task-icon {
+.icon {
     padding-top: 1rem;
     text-align: center;
     font-size: 3rem;
@@ -15,10 +15,14 @@
     height: max-content;
 }
 
-mat-form-field {
+.field {
     width: 100%;
 }
 
-form {
+.form {
     padding: 1rem;
+}
+
+.submit-button {
+    cursor: pointer;
 }

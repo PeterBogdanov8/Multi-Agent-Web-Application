@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SingleAgentTaskDetails } from './single-agent-task-details';
+import { SingleAgent } from './single-agent';
 
-describe('SingleAgentTaskDetails', () => {
-  let component: SingleAgentTaskDetails;
-  let fixture: ComponentFixture<SingleAgentTaskDetails>;
+describe('SingleAgent', () => {
+  let component: SingleAgent;
+  let fixture: ComponentFixture<SingleAgent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SingleAgentTaskDetails],
+      imports: [SingleAgent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SingleAgentTaskDetails);
+    fixture = TestBed.createComponent(SingleAgent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

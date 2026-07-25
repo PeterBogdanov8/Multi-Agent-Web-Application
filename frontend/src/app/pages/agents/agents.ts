@@ -65,6 +65,6 @@ export class Agents implements OnInit {
   }
 
   onAgentClick(agentType: AgentType) {
-    this.router.navigate(["/single-agent-task-details", agentType])
+    this.router.navigate(["/single-agent", agentType])
   }
 }

@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { Agents } from './pages/agents/agents';
-import { SingleAgentTaskDetails } from './pages/single-agent-task-details/single-agent-task-details';
+import { SingleAgent } from './pages/single-agent/single-agent';
 
 export const routes: Routes = [
     { path: "", redirectTo: "agents", pathMatch: "full" },
     { path: "agents", component: Agents },
-    { path: "single-agent-task-details/:agentType", component: SingleAgentTaskDetails}
+    { path: "single-agent/:agentType", component: SingleAgent}
 ];
