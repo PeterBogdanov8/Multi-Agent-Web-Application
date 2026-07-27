@@ -1,13 +1,18 @@
 <mat-icon class="agent-icon">psychology</mat-icon>
 <h1 class="heading">Agent Systems</h1>
-<p class="sub-heading">Select the agent system you would like to use:</p>
-<mat-grid-list class="grid-list" [cols]="numCols" rowHeight="200px" gutterSize="1rem">
-    @for (card of cards; track card.title) {
+<div class="toggle-group-container">
+    <mat-button-toggle-group>
+    <mat-button-toggle [value]="SystemType.SingleAgentType" (click)="setSystemType(SystemType.SingleAgentType)">Single Agent System</mat-button-toggle>
+    <mat-button-toggle [value]="SystemType.MultiAgentType" (click)="setSystemType(SystemType.MultiAgentType)">Multi Agent System</mat-button-toggle>
+</mat-button-toggle-group>
+</div>
+<mat-grid-list class="grid-list" [cols]="numCols" rowHeight="195px" gutterSize="1rem">
+    @for (card of cards.filter(x => x.systemType == systemType); track card.title) {
     <mat-grid-tile class="tile" (click)="onAgentClick(card.value)">
         <mat-card class="card" appearance="outlined">
             <mat-card-header>
                 <mat-card-title>{{card.title}}</mat-card-title>
-                <mat-card-subtitle>{{card.subtitle}}</mat-card-subtitle>
+                <mat-card-subtitle>{{getSubtitle(card.systemType)}}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
                 <p>{{card.description}}</p>

@@ -1,0 +1,99 @@
+.heading {
+    text-align: center;
+}
+
+.sub-heading {
+    text-align: center;
+    font-size: large;
+}
+
+.icon {
+    padding-top: 1rem;
+    text-align: center;
+    font-size: 3rem;
+    width: 100%;
+    height: max-content;
+}
+
+.form {
+    padding: 1rem;
+}
+
+.field {
+    width: 100%;
+}
+
+.remove-button {
+    display: block;
+    margin-inline: auto;
+    margin-bottom: 1rem;
+}
+
+.submit-button {
+    margin-left: 0.25rem;
+}
+
+.accordion {
+  display: block;
+  width: 100%;
+}
+
+.accordion-item {
+  display: block;
+  border: solid 1px #ccc;
+}
+
+.accordion-item + .accordion-item {
+  border-top: none;
+}
+
+.accordion-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 16px;
+  text-align: left;
+
+}
+
+.accordion-item-arrow {
+  font-size: 0.85em;
+  color: #999;
+}
+
+.accordion-item-description {
+  display: flex;
+  p {
+    font-size: large;
+    font-weight: bold;
+  }
+
+  mat-icon {
+    padding-top: 1.063rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+}
+
+.accordion-item-body {
+  padding: 16px;
+}
+
+.accordion-item-header:hover {
+  cursor: pointer;
+  background: black;
+  color: white;
+}
+
+.accordion-item:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.accordion-item:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}

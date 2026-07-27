@@ -46,7 +46,7 @@ def get_single_agent_candidates(budget: int, job: str, agent_type: AgentType):
             solution = dp_agent.solve_problem();
     return solution
 
-@app.get("/get-multi-agent-candidates")
+@app.post("/get-multi-agent-candidates")
 def get_multi_agent_candidates(payload: MultiAgentPayload):
     tasks = [
         Task(**payload_task.model_dump()) for payload_task in payload.tasks

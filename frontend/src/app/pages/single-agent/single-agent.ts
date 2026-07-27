@@ -8,10 +8,12 @@ import { AgentType } from '../../shared/enums/agent-type';
 import { Api } from '../../services/api';
 import { Candidate } from '../../shared/models/candidate';
 import { MatTableModule } from '@angular/material/table';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-single',
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatIconModule,
