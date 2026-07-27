@@ -112,6 +112,8 @@ export class Agents implements OnInit {
       case SystemType.SingleAgentType:
         this.router.navigate(["/single-agent", agentType]);
         break;
+      case SystemType.MultiAgentType:
+        this.router.navigate(["/multi-agent", agentType]);
     }
   }
 }
