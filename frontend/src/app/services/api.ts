@@ -17,7 +17,7 @@ export class Api {
         return this.http.get<Candidate[]>(`${this.baseUrl}/get-single-agent-candidates/${budget}/${job}/${agentType}`).pipe()
     }
 
-    getMultiAgentCandidates(payload: MultiAgentPayload): Observable<MultiAgentSolution> {
-        return this.http.post<MultiAgentSolution>(`${this.baseUrl}/get-multi-agent-candidates`, payload).pipe();
+    getMultiAgentCandidates(payload: MultiAgentPayload): Observable<MultiAgentSolution[]> {
+        return this.http.post<MultiAgentSolution[]>(`${this.baseUrl}/get-multi-agent-candidates`, payload).pipe();
     }
 }
