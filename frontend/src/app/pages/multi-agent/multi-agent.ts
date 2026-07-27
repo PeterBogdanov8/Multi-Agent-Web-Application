@@ -1,3 +1,5 @@
+import { MultiAgentPayload } from './../../shared/enums/multi-agent-payload';
+import { Task } from './../../shared/enums/task';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MultiAgentType } from '../../shared/enums/multi-agent-type';
 import { CommonModule } from '@angular/common';
@@ -6,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInput } from "@angular/material/input";
 import { MatIconModule } from '@angular/material/icon';
+import { Api } from '../../services/api';
 
 @Component({
   selector: 'app-multi-agent',
@@ -24,6 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class MultiAgent implements OnInit {
   @Input() agentType!: MultiAgentType;
   formBuilder = inject(FormBuilder);
+  api = inject(Api);
   tasksArray = new FormArray<FormGroup>([]);
 
   ngOnInit(): void {
@@ -46,6 +50,20 @@ export class MultiAgent implements OnInit {
   }
 
   submitTasks() {
-
+    let tasks: Task[] = [];
+    this.tasksArray.controls.forEach(control => {
+      const task: Task = {
+        job: control.get("role")?.value,
+        budget: control.get("budget")?.value
+      } as Task;
+      tasks.push(task);
+    });
+    const payload = {
+      tasks,
+      mult_agent_type: this.agentType
+    } as MultiAgentPayload
+    this.api.getMultiAgentCandidates(payload).subscribe(multiAgentSolution => {
+      console.log(multiAgentSolution);
+    })
   }
 }
