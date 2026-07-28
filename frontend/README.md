@@ -22,7 +22,7 @@ Ensure you have [Node.js](https://nodejs.org/) installed (v24.18.0 or higher rec
     npm install
     ```
 ### How to run the frontend
-In the frontend directory run the following command
+In the frontend directory run the following command:
 ```bash
 npm run start
 ```
