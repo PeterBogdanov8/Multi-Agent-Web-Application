@@ -77,7 +77,7 @@ export class Agents implements OnInit {
       Breakpoints.Handset,
       Breakpoints.Tablet,
       Breakpoints.Web
-    ]).subscribe(_ => {
+    ]).subscribe(() => {
       if (this.breakpointObserver.isMatched(Breakpoints.Handset)) {
         this.numCols = 1;
       } else if (this.breakpointObserver.isMatched(Breakpoints.Tablet)) {
@@ -89,7 +89,7 @@ export class Agents implements OnInit {
   }
 
   getSubtitle(systemType: SystemType): string {
-    let subtitle = "";
+    let subtitle;
     switch(systemType) {
       case SystemType.SingleAgentType:
         subtitle = "single agent"
