@@ -59,7 +59,7 @@ export class MultiAgent implements OnInit {
   }
 
   submitTasks() {
-    let tasks: Task[] = [];
+    const tasks: Task[] = [];
     this.tasksArray.controls.forEach(control => {
       const task: Task = {
         job: control.get("role")?.value,

@@ -84,7 +84,7 @@
                     <input matInput type="number" formControlName="budget"/>
                     <span matTextPrefix>$&nbsp;</span>
                 </mat-form-field>
-                @if (i != 0) {
+                @if (i !== 0) {
                     <button class="remove-button" matButton="filled" (click)="removeTask(i)">Remove Task</button>
                 }
             </div>

@@ -7,7 +7,7 @@
 </mat-button-toggle-group>
 </div>
 <mat-grid-list class="grid-list" [cols]="numCols" rowHeight="195px" gutterSize="1rem">
-    @for (card of cards.filter(x => x.systemType == systemType); track card.title) {
+    @for (card of cards.filter(x => x.systemType === systemType); track card.title) {
     <mat-grid-tile class="tile" (click)="onAgentClick(card.value)">
         <mat-card class="card" appearance="outlined">
             <mat-card-header>
