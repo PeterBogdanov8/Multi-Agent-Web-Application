@@ -1,0 +1,7 @@
+[tool.ruff]
+target-version = "py314"
+line-length = 88
+
+[tool.ruff.lint]
+# "F" for Pyflakes, "E" or "W" for Pycodestyle, "I" for isort, "FAST" for FastAPI specific rules
+select = ["F", "E", "W", "I", "FAST"]
