@@ -27,8 +27,8 @@ jobs:
     defaults:
       run:
         working-directory: ./backend
-      container:
-        image: python:3.14.6
+    container:
+      image: python:3.14.6
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
