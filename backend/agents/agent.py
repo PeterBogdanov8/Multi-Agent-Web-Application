@@ -25,5 +25,5 @@ class Agent:
 
     def print_candidates(self, candidates: list[Candidate]):
         for candidate in candidates:
-            print('-----------------------')
+            print("-----------------------")
             candidate.print_candidate()

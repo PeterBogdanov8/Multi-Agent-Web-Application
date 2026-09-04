@@ -1,8 +1,8 @@
 import copy
 
+from agents.agent import Agent
 from candidate.candidate import Candidate
 from graph.graph import Graph
-from agents.agent import Agent
 from task.solution_task import SolutionTask
 from task.task import Task
 

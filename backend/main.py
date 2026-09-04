@@ -1,22 +1,23 @@
 from math import log
-from fastapi import FastAPI
 
-from multi_agent_system import MultiAgentSystem
-from payloads.multi_agent_payload import MultiAgentPayload
-from system_types.agent_type import AgentType
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from agents.dynamic_programming_agent import DynamicProgrammingAgent
 from agents.genetic_agent import GeneticAgent
 from agents.search_agent import SearchAgent
 from agents.simulated_annealing_agent import SimulatedAnnealingAgent
 from candidate.candidate_loader import CandidateLoader
+from multi_agent_system import MultiAgentSystem
+from payloads.multi_agent_payload import MultiAgentPayload
+from system_types.agent_type import AgentType
 from task.task import Task
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 origins = [
     "http://localhost:4200",
 ]
-candidate_loader = CandidateLoader('data/candidates.json')
+candidate_loader = CandidateLoader("data/candidates.json")
 candidates = candidate_loader.get_candidates()
 
 app.add_middleware(
@@ -24,13 +25,14 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
+
 
 @app.get("/get-single-agent-candidates/{budget}/{job}/{agent_type}")
 def get_single_agent_candidates(budget: int, job: str, agent_type: AgentType):
     solution = None
-    
+
     match agent_type:
         case AgentType.SimulatedAnnealingAgentType:
             sa_agent = SimulatedAnnealingAgent(budget, job, candidates)
@@ -43,13 +45,12 @@ def get_single_agent_candidates(budget: int, job: str, agent_type: AgentType):
             solution = genetic_agent.choose_candidates(True, 0.02, 20)
         case AgentType.DynamicProgrammingAgentType:
             dp_agent = DynamicProgrammingAgent(budget, job, candidates)
-            solution = dp_agent.solve_problem();
+            solution = dp_agent.solve_problem()
     return solution
+
 
 @app.post("/get-multi-agent-candidates")
 def get_multi_agent_candidates(payload: MultiAgentPayload):
-    tasks = [
-        Task(**payload_task.model_dump()) for payload_task in payload.tasks
-    ]
+    tasks = [Task(**payload_task.model_dump()) for payload_task in payload.tasks]
     multi_agent_system = MultiAgentSystem(payload.mult_agent_type, tasks, candidates)
     return multi_agent_system.assign_candidate_to_roles()
