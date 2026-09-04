@@ -1,7 +1,7 @@
-from math import log
-from math import atan
-import threading
 import queue
+import threading
+from math import atan, log
+
 from agents.agent import Agent
 from agents.dynamic_programming_agent import DynamicProgrammingAgent
 from agents.genetic_agent import GeneticAgent
@@ -13,7 +13,12 @@ from task.task import Task
 
 
 class MultiAgentSystem:
-    def __init__(self, multi_agent_type: MultiAgentType, tasks: list[Task], candidates: list[Candidate]):
+    def __init__(
+        self,
+        multi_agent_type: MultiAgentType,
+        tasks: list[Task],
+        candidates: list[Candidate],
+    ):
         self.multi_agent_type = multi_agent_type
         self.tasks = tasks
         self.candidates = candidates
@@ -21,35 +26,64 @@ class MultiAgentSystem:
         self.solution_tasks = []
         self.total_rewards = 0
 
-    def get_simulated_annealing_process(self, fifo_queue, task, num_simulated_annealing_solutions):
+    def get_simulated_annealing_process(
+        self, fifo_queue, task, num_simulated_annealing_solutions
+    ):
         if num_simulated_annealing_solutions % 2 == 0:
             sa_agent = SimulatedAnnealingAgent(task.budget, task.job, self.candidates)
-            return threading.Thread(target=sa_agent.solve_task, args=(fifo_queue, lambda x: log(x, 10),))
+            return threading.Thread(
+                target=sa_agent.solve_task,
+                args=(
+                    fifo_queue,
+                    lambda x: log(x, 10),
+                ),
+            )
         elif num_simulated_annealing_solutions % 3 == 0:
             sa_agent = SimulatedAnnealingAgent(task.budget, task.job, self.candidates)
-            return threading.Thread(target=sa_agent.solve_task, args=(fifo_queue, lambda x: atan(x / 10),))
+            return threading.Thread(
+                target=sa_agent.solve_task,
+                args=(
+                    fifo_queue,
+                    lambda x: atan(x / 10),
+                ),
+            )
         else:
             sa_agent = SimulatedAnnealingAgent(task.budget, task.job, self.candidates)
-            return threading.Thread(target=sa_agent.solve_task, args=(fifo_queue, lambda x: x - 1),)
+            return threading.Thread(
+                target=sa_agent.solve_task,
+                args=(fifo_queue, lambda x: x - 1),
+            )
 
     def get_genetic_algorithm_process(self, fifo_queue, task, num_genetic_solutions):
         if num_genetic_solutions % 2 == 0:
             g_agent = GeneticAgent(task.budget, task.job, self.candidates)
-            return threading.Thread(target=g_agent.choose_candidates_task, args=(fifo_queue, False, 0.02, 20))
+            return threading.Thread(
+                target=g_agent.choose_candidates_task,
+                args=(fifo_queue, False, 0.02, 20),
+            )
         else:
             g_agent = GeneticAgent(task.budget, task.job, self.candidates)
-            return threading.Thread(target=g_agent.choose_candidates_task, args=(fifo_queue, True, 0.02, 20))
+            return threading.Thread(
+                target=g_agent.choose_candidates_task, args=(fifo_queue, True, 0.02, 20)
+            )
 
     def get_search_algorithm_process(self, fifo_queue, task, num_search_solutions):
         if num_search_solutions % 3 == 0:
             s_agent = SearchAgent(task.budget, task.job, self.candidates)
-            return threading.Thread(target=s_agent.cheap_first_search, args=(fifo_queue,))
+            return threading.Thread(
+                target=s_agent.cheap_first_search, args=(fifo_queue,)
+            )
         elif num_search_solutions % 2 == 0:
             s_agent = SearchAgent(task.budget, task.job, self.candidates)
-            return threading.Thread(target=s_agent.expected_employer_vs_employee_pay_search, args=(fifo_queue,))
+            return threading.Thread(
+                target=s_agent.expected_employer_vs_employee_pay_search,
+                args=(fifo_queue,),
+            )
         else:
             s_agent = SearchAgent(task.budget, task.job, self.candidates)
-            return threading.Thread(target=s_agent.best_first_search_task, args=(fifo_queue,))
+            return threading.Thread(
+                target=s_agent.best_first_search_task, args=(fifo_queue,)
+            )
 
     def get_dynamic_programming_algorithm_process(self, fifo_queue, task):
         dp_agent = DynamicProgrammingAgent(task.budget, task.job, self.candidates)
@@ -64,22 +98,44 @@ class MultiAgentSystem:
         fifo_queue = queue.Queue()
         for task in self.tasks:
             if self.multi_agent_type == MultiAgentType.SimulatedAnnealingMultiAgentType:
-                threads.append(self.get_simulated_annealing_process(fifo_queue, task, num_simulated_annealing_solutions))
+                threads.append(
+                    self.get_simulated_annealing_process(
+                        fifo_queue, task, num_simulated_annealing_solutions
+                    )
+                )
                 num_simulated_annealing_solutions += 1
             elif self.multi_agent_type == MultiAgentType.GeneticMultiAgentType:
-                threads.append(self.get_genetic_algorithm_process(fifo_queue, task, num_genetic_solutions))
+                threads.append(
+                    self.get_genetic_algorithm_process(
+                        fifo_queue, task, num_genetic_solutions
+                    )
+                )
                 num_genetic_solutions += 1
             elif self.multi_agent_type == MultiAgentType.DiverseMultiAgentType:
                 if num_task % 4 == 0:
-                    threads.append(self.get_dynamic_programming_algorithm_process(fifo_queue, task))
+                    threads.append(
+                        self.get_dynamic_programming_algorithm_process(fifo_queue, task)
+                    )
                 elif num_task % 2 == 0:
-                    threads.append(self.get_genetic_algorithm_process(fifo_queue, task, num_genetic_solutions))
+                    threads.append(
+                        self.get_genetic_algorithm_process(
+                            fifo_queue, task, num_genetic_solutions
+                        )
+                    )
                     num_genetic_solutions += 1
                 elif num_task % 3 == 0:
-                    threads.append(self.get_search_algorithm_process(fifo_queue, task, num_search_solutions))
+                    threads.append(
+                        self.get_search_algorithm_process(
+                            fifo_queue, task, num_search_solutions
+                        )
+                    )
                     num_search_solutions += 1
                 else:
-                    threads.append(self.get_simulated_annealing_process(fifo_queue, task, num_simulated_annealing_solutions))
+                    threads.append(
+                        self.get_simulated_annealing_process(
+                            fifo_queue, task, num_simulated_annealing_solutions
+                        )
+                    )
                     num_simulated_annealing_solutions += 1
             num_task = num_task + 1
 
@@ -99,10 +155,14 @@ class MultiAgentSystem:
         assigned_employees = set(assigned_employees)
         assigned_employees = list(assigned_employees)
         unassigned_candidates = self.get_unassigned_candidates(assigned_employees)
-        multiple_role_employees_and_indices = self.get_multiple_role_employees(assigned_employees)
+        multiple_role_employees_and_indices = self.get_multiple_role_employees(
+            assigned_employees
+        )
 
         if len(multiple_role_employees_and_indices) > 0:
-            self.use_backtracking(multiple_role_employees_and_indices, unassigned_candidates)
+            self.use_backtracking(
+                multiple_role_employees_and_indices, unassigned_candidates
+            )
         return self.solution_tasks
 
     def get_unassigned_candidates(self, assigned_employees):
@@ -135,9 +195,13 @@ class MultiAgentSystem:
 
     def use_backtracking(self, multiple_role_employees, unassigned_candidates):
         multiple_role_employee = multiple_role_employees.pop()
-        return self.back_track_employees(multiple_role_employee, multiple_role_employees, unassigned_candidates)
+        return self.back_track_employees(
+            multiple_role_employee, multiple_role_employees, unassigned_candidates
+        )
 
-    def back_track_employees(self, employee_and_indices, multiple_role_employees, unassigned_candidates):
+    def back_track_employees(
+        self, employee_and_indices, multiple_role_employees, unassigned_candidates
+    ):
         employee, solution_indices, job = employee_and_indices
         agent = Agent(0, job, unassigned_candidates)
         prev_unassigned_candidates = unassigned_candidates
@@ -154,10 +218,20 @@ class MultiAgentSystem:
                 task_index = solution_indices[0]
                 self.solutions[task_index].remove(employee)
                 if len(self.solutions[task_index]) == 0:
-                    raise Exception(f'Unable to assign employee to {job} job')
-            assigned_to_multiple_roles, solution_indices = self.is_assigned_multiple_roles(employee)
+                    raise Exception(f"Unable to assign employee to {job} job")
+            assigned_to_multiple_roles, solution_indices = (
+                self.is_assigned_multiple_roles(employee)
+            )
             if assigned_to_multiple_roles:
-                self.back_track_employees([employee, solution_indices, job], multiple_role_employees, unassigned_candidates)
+                self.back_track_employees(
+                    [employee, solution_indices, job],
+                    multiple_role_employees,
+                    unassigned_candidates,
+                )
         if len(multiple_role_employees) > 0:
             employee_and_indices = multiple_role_employees.pop()
-            self.back_track_employees(employee_and_indices, multiple_role_employees, prev_unassigned_candidates)
+            self.back_track_employees(
+                employee_and_indices,
+                multiple_role_employees,
+                prev_unassigned_candidates,
+            )

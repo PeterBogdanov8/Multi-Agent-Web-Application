@@ -1,6 +1,6 @@
+from agents.agent import Agent
 from candidate.candidate import Candidate
 from graph.graph import Graph
-from agents.agent import Agent
 from task.solution_task import SolutionTask
 from task.task import Task
 
@@ -71,7 +71,11 @@ class SearchAgent(Agent):
                 solution_copy.append(child)
                 rewards = self.get_total_rewards(solution_copy)
                 new_expected_pay = child.salary
-                if (new_expected_pay <= expected_pay) & (rewards > 0) & (child not in solution):
+                if (
+                    (new_expected_pay <= expected_pay)
+                    & (rewards > 0)
+                    & (child not in solution)
+                ):
                     child_to_add = child
                     expected_pay = new_expected_pay
             if child_to_add is None:
@@ -91,7 +95,9 @@ class SearchAgent(Agent):
         employer_expected_yearly_pay = 69000
         while traverse_graph:
             node = self.graph.get_node(candidate.id)
-            expected_employer_pay = employer_expected_yearly_pay * node.potential_children[0].experience
+            expected_employer_pay = (
+                employer_expected_yearly_pay * node.potential_children[0].experience
+            )
             expected_employee_pay = node.potential_children[0].salary
             pay_heuristic = expected_employer_pay - expected_employee_pay
             child_to_add = None
@@ -102,7 +108,11 @@ class SearchAgent(Agent):
                 expected_employer_pay = employer_expected_yearly_pay * child.experience
                 expected_employee_pay = child.salary
                 new_pay_heuristic = expected_employer_pay - expected_employee_pay
-                if (new_pay_heuristic >= pay_heuristic) & (rewards > 0) & (child not in solution):
+                if (
+                    (new_pay_heuristic >= pay_heuristic)
+                    & (rewards > 0)
+                    & (child not in solution)
+                ):
                     child_to_add = child
                     pay_heuristic = new_pay_heuristic
             if child_to_add is None:

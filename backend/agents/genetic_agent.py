@@ -13,9 +13,17 @@ class GeneticAgent(Agent):
         self.num_chromosomes = 0
         self.mutation_rate = 0
 
-    def choose_candidates_task(self, queue, use_one_point_crossover: bool, mutation_rate: float, population_size: int):
+    def choose_candidates_task(
+        self,
+        queue,
+        use_one_point_crossover: bool,
+        mutation_rate: float,
+        population_size: int,
+    ):
         task = Task(self.budget, self.job)
-        solution = self.choose_candidates(use_one_point_crossover, mutation_rate, population_size)
+        solution = self.choose_candidates(
+            use_one_point_crossover, mutation_rate, population_size
+        )
         queue.put(SolutionTask(task, solution))
 
     def create_chromosome(self, use_one_point_crossover: bool):
@@ -117,9 +125,12 @@ class GeneticAgent(Agent):
             if can_mutate:
                 offspring1 = self.mutate_chromosome(offspring1)
                 offspring2 = self.mutate_chromosome(offspring2)
-            new_chromosomes.append(self.get_fittest_chromosome([chromosome1, chromosome2, offspring1, offspring2]))
+            new_chromosomes.append(
+                self.get_fittest_chromosome(
+                    [chromosome1, chromosome2, offspring1, offspring2]
+                )
+            )
         self.chromosomes = new_chromosomes
-
 
     def get_solution(self, chromosome: list[int]):
         solution = []
@@ -131,25 +142,33 @@ class GeneticAgent(Agent):
             index = index + 1
         return solution
 
-    def choose_candidates(self, use_one_point_crossover: bool, mutation_rate: float, population_size: int):
+    def choose_candidates(
+        self, use_one_point_crossover: bool, mutation_rate: float, population_size: int
+    ):
         self.historical_rewards = []
         self.mutation_rate = mutation_rate
         self.num_chromosomes = population_size
         generation = 1
         self.chromosomes = self.create_chromosomes(use_one_point_crossover)
 
-        fittest_chromosome_rewards = self.get_total_rewards(self.get_solution(self.get_fittest_chromosome(self.chromosomes)))
-        least_fit_chromosome_rewards = self.get_total_rewards(self.get_solution(self.get_least_fit_chromosome(self.chromosomes)))
+        fittest_chromosome_rewards = self.get_total_rewards(
+            self.get_solution(self.get_fittest_chromosome(self.chromosomes))
+        )
+        least_fit_chromosome_rewards = self.get_total_rewards(
+            self.get_solution(self.get_least_fit_chromosome(self.chromosomes))
+        )
         previous_rewards = fittest_chromosome_rewards
         while (fittest_chromosome_rewards - least_fit_chromosome_rewards) != 0:
             self.tournament_selection(generation, use_one_point_crossover)
-            fittest_chromosome_rewards = self.get_total_rewards(self.get_solution(self.get_fittest_chromosome(self.chromosomes)))
-            least_fit_chromosome_rewards = self.get_total_rewards(self.get_solution(self.get_least_fit_chromosome(self.chromosomes)))
+            fittest_chromosome_rewards = self.get_total_rewards(
+                self.get_solution(self.get_fittest_chromosome(self.chromosomes))
+            )
+            least_fit_chromosome_rewards = self.get_total_rewards(
+                self.get_solution(self.get_least_fit_chromosome(self.chromosomes))
+            )
             generation += 1
             if previous_rewards == fittest_chromosome_rewards:
                 self.mutation_rate = self.mutation_rate + 0.005
             previous_rewards = fittest_chromosome_rewards
             self.historical_rewards.append(fittest_chromosome_rewards)
         return self.get_solution(self.get_fittest_chromosome(self.chromosomes))
-
-
