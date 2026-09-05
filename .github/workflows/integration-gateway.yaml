@@ -1,0 +1,14 @@
+name: Integration Gateway
+
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+jobs:
+    run-frontend-integration:
+        name: "Trigger Frontend Integration"
+        uses: ./.github/workflows/fronend.yaml
+    run-backend-integration:
+        name: "Trigger Backend Integration"
+        uses: ./.github/workflows/fronend.yaml           

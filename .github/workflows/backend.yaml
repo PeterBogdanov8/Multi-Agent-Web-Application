@@ -1,13 +1,17 @@
-name: Backend
+name: Backend Integration
 
 on:
   pull_request:
     branches:
     - main
+  workflow_call:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     defaults:
       run:
         working-directory: ./backend
