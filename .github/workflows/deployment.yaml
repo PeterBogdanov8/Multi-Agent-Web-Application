@@ -2,12 +2,12 @@ name: Deployment
 
 on:
   workflow_run:
-    workflows: [ "Frontend Integration", "Backend Integration" ]
+    workflows: [ "Integration Gateway" ]
     types:
       - completed
     branches:
       - main
-      
+
 env:
   REGISTRY: ghcr.io
   REPOSITORY_NAME: ${{ github.repository }}
