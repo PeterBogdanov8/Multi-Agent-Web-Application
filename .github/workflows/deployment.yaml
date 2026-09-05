@@ -37,6 +37,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/frontend
+          flavor: |
+            lower=true
           tags: |
             type=raw, value=latest
             type=sha, format=short
@@ -57,6 +59,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/backend
+          flavor: |
+            lower=true
           tags: |
             type=raw, value=latest
             type=sha, format=short
