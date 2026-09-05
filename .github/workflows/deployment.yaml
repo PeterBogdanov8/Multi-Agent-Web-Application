@@ -38,7 +38,6 @@ jobs:
             type=raw, value=latest
             type=sha, format=short
       - name: Deploy Frontend
-        if: github.event_name == 'push'
         uses: docker/build-push-action@v6
         with:
           context: ./frontend
@@ -59,7 +58,6 @@ jobs:
             type=raw, value=latest
             type=sha, format=short
       - name: Deploy Backend
-        if: github.event_name == 'push'
         uses: docker/build-push-action@v6
         with:
           context: ./backend
