@@ -8,7 +8,7 @@ on:
 jobs:
     run-frontend-integration:
         name: "Trigger Frontend Integration"
-        uses: ./.github/workflows/fronend.yaml
+        uses: ./.github/workflows/frontend.yaml
     run-backend-integration:
         name: "Trigger Backend Integration"
-        uses: ./.github/workflows/fronend.yaml           
+        uses: ./.github/workflows/frontend.yaml           
