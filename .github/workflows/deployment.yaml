@@ -1,0 +1,70 @@
+name: Deployment
+
+on:
+  workflow_run:
+    workflows: [ "Frontend Integration", "Backend Integration" ]
+    types:
+      - completed
+    branches:
+      - main
+      
+env:
+  REGISTRY: ghcr.io
+  REPOSITORY_NAME: ${{ github.repository }}
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          registery: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+        
+      # Frontend deployment
+      - name: Get Frontend Metadata
+        id: meta-frontend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/frontend
+          tags: |
+            type=raw, value=latest
+            type=sha, format=short
+      - name: Deploy Frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ${{ steps.meta-frontend.outputs.tags }}
+          labels: ${{ steps.meta-frontend.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha, mode=max
+          
+      # Backend deployment
+      - name: Get Backend Metadata
+        id: meta-backend
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY_NAME }}/backend
+          tags: |
+            type=raw, value=latest
+            type=sha, format=short
+      - name: Deploy Backend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          push: true
+          tags: ${{ steps.meta-backend.outputs.tags }}
+          labels: ${{ steps.meta-backend.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha, mode=max

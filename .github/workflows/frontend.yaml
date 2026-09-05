@@ -1,4 +1,4 @@
-name: Frontend
+name: Frontend Integration
 
 on:
   pull_request:

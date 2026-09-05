@@ -1,4 +1,4 @@
-name: Backend
+name: Backend Integration
 
 on:
   pull_request:
