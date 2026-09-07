@@ -51,3 +51,12 @@ graph TD
 
     Merge --> Deployment_Pipeline{{Deployment Pipeline}} --> Deploy[(GitHub Container Registry <br/> ghcr.io)]
 ```
+
+### Pipeline Components
+
+| Workflow | Path | Trigger Condition | Primary Responsibilities |
+| :--- | :--- | :--- | :--- |
+| **Integration Gateway** | `.github/workflows/integration-gateway.yml` | Every Pull Request & Push | Intercepts events, evaluates modified paths, and dynamically triggers required sub-pipelines. |
+| **Frontend Integration** | `.github/workflows/frontend.yml` | Triggered by Gateway | Spawns parallel jobs to lint TypeScript/HTML files and compile the production build (`ng build`) independently. |
+| **Backend Integration** | `.github/workflows/backend.yml` | Triggered by Gateway | Spawns parallel jobs to run Python linting tools and compile/verify the application inside an isolated test environment. |
+| **Deployment** | `.github/workflows/deployment.yml` | Automated Merge to `main` | Packages the verified FastAPI and Angular apps into optimized production **Docker** images and publishes them to **GHCR**. |
