@@ -105,6 +105,12 @@ class MultiAgentSystem:
                         )
                     )
                     num_simulated_annealing_solutions += 1
+                case MultiAgentType.SearchMultiAgentType:
+                    threads.append(
+                        self.get_search_algorithm_process(
+                            fifo_queue, task, num_search_solutions
+                        )
+                    )
                 case MultiAgentType.GeneticMultiAgentType:
                     threads.append(
                         self.get_genetic_algorithm_process(
