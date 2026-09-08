@@ -97,46 +97,56 @@ class MultiAgentSystem:
         threads = []
         fifo_queue = queue.Queue()
         for task in self.tasks:
-            if self.multi_agent_type == MultiAgentType.SimulatedAnnealingMultiAgentType:
-                threads.append(
-                    self.get_simulated_annealing_process(
-                        fifo_queue, task, num_simulated_annealing_solutions
-                    )
-                )
-                num_simulated_annealing_solutions += 1
-            elif self.multi_agent_type == MultiAgentType.GeneticMultiAgentType:
-                threads.append(
-                    self.get_genetic_algorithm_process(
-                        fifo_queue, task, num_genetic_solutions
-                    )
-                )
-                num_genetic_solutions += 1
-            elif self.multi_agent_type == MultiAgentType.DiverseMultiAgentType:
-                if num_task % 4 == 0:
-                    threads.append(
-                        self.get_dynamic_programming_algorithm_process(fifo_queue, task)
-                    )
-                elif num_task % 2 == 0:
-                    threads.append(
-                        self.get_genetic_algorithm_process(
-                            fifo_queue, task, num_genetic_solutions
-                        )
-                    )
-                    num_genetic_solutions += 1
-                elif num_task % 3 == 0:
-                    threads.append(
-                        self.get_search_algorithm_process(
-                            fifo_queue, task, num_search_solutions
-                        )
-                    )
-                    num_search_solutions += 1
-                else:
+            match self.multi_agent_type:
+                case MultiAgentType.SimulatedAnnealingMultiAgentType:
                     threads.append(
                         self.get_simulated_annealing_process(
                             fifo_queue, task, num_simulated_annealing_solutions
                         )
                     )
                     num_simulated_annealing_solutions += 1
+                case MultiAgentType.SearchMultiAgentType:
+                    threads.append(
+                        self.get_search_algorithm_process(
+                            fifo_queue, task, num_search_solutions
+                        )
+                    )
+                case MultiAgentType.GeneticMultiAgentType:
+                    threads.append(
+                        self.get_genetic_algorithm_process(
+                            fifo_queue, task, num_genetic_solutions
+                        )
+                    )
+                    num_genetic_solutions += 1
+                case MultiAgentType.DiverseMultiAgentType:
+                    if num_task % 4 == 0:
+                        threads.append(
+                            self.get_dynamic_programming_algorithm_process(
+                                fifo_queue,
+                                task
+                            )
+                        )
+                    elif num_task % 2 == 0:
+                        threads.append(
+                            self.get_genetic_algorithm_process(
+                                fifo_queue, task, num_genetic_solutions
+                            )
+                        )
+                        num_genetic_solutions += 1
+                    elif num_task % 3 == 0:
+                        threads.append(
+                            self.get_search_algorithm_process(
+                                fifo_queue, task, num_search_solutions
+                            )
+                        )
+                        num_search_solutions += 1
+                    else:
+                        threads.append(
+                            self.get_simulated_annealing_process(
+                                fifo_queue, task, num_simulated_annealing_solutions
+                            )
+                        )
+                        num_simulated_annealing_solutions += 1
             num_task = num_task + 1
 
         for thread in threads:
