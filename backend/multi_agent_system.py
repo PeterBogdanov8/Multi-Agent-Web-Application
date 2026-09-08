@@ -121,7 +121,10 @@ class MultiAgentSystem:
                 case MultiAgentType.DiverseMultiAgentType:
                     if num_task % 4 == 0:
                         threads.append(
-                            self.get_dynamic_programming_algorithm_process(fifo_queue, task)
+                            self.get_dynamic_programming_algorithm_process(
+                                fifo_queue,
+                                task
+                            )
                         )
                     elif num_task % 2 == 0:
                         threads.append(
