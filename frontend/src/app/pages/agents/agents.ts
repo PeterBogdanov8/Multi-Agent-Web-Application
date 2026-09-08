@@ -53,6 +53,12 @@ export class Agents implements OnInit {
       value: MultiAgentType.DiverseMultiAgentType
     },
     { 
+      title: "Search Multi Agent System", 
+      systemType: SystemType.MultiAgentType, 
+      description: "The search multi-agent system uses the search agents to select suitable candidates for multiple roles in parallel. Since a candidate may be selected for more than one role, a backtracking mechanism is employed to resolve such conflicts.",
+      value: MultiAgentType.SearchMultiAgentType
+    },
+    { 
       title: "Simulated Annealing Multi Agent System", 
       systemType: SystemType.MultiAgentType, 
       description: "The simulated annealing multi-agent system uses simulated annealing agents to select suitable candidates for multiple roles in parallel. Since a candidate may be selected for more than one role, a backtracking mechanism is employed to resolve such conflicts.",
