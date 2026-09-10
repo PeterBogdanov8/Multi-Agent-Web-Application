@@ -1,9 +1,6 @@
 name: Frontend Integration
 
 on:
-  pull_request:
-    branches:
-    - main
   workflow_call:
 
 jobs:
