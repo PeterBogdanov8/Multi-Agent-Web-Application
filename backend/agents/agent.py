@@ -27,6 +27,7 @@ class Agent:
         return (
             self.get_education_level_score(candidate)
             + self.get_experience_score(candidate)
+            + self.get_age_score(candidate)
         )
 
     def get_education_level_score(self, candidate: Candidate):
@@ -50,6 +51,23 @@ class Agent:
                 return 6
             case experience if 1 <= experience < 3:
                 return 4
+            case _:
+                return 0
+
+    def get_age_score(self, candidate: Candidate):
+        match candidate.age:
+            case age if age >= 60:
+                return 3
+            case age if 50 <= age < 60:
+                return 5
+            case age if 40 <= age < 50:
+                return 6
+            case age if 30 <= age < 40:
+                return 7
+            case age if 20 <= age < 30:
+                return 8
+            case age if age < 20:
+                return 10
             case _:
                 return 0
 
