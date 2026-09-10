@@ -1,9 +1,6 @@
 name: Backend Integration
 
 on:
-  pull_request:
-    branches:
-    - main
   workflow_call:
 
 jobs:
