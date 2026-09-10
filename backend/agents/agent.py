@@ -15,13 +15,61 @@ class Agent:
         expense = 0
         rewards = 0
         for candidate in solution:
-            rewards += candidate.experience
+            rewards += self.get_candidate_score(candidate)
             expense += candidate.salary
 
         if expense > self.budget:
             return 0
         else:
             return rewards
+
+    def get_candidate_score(self, candidate: Candidate):
+        return (
+            self.get_education_level_score(candidate)
+            + self.get_experience_score(candidate)
+            + self.get_age_score(candidate)
+        )
+
+    def get_education_level_score(self, candidate: Candidate):
+        match candidate.education_level:
+            case "Bachelor's":
+                return 6
+            case "Master's":
+                return 8
+            case "PhD":
+                return 10
+            case _:
+                return 0
+
+    def get_experience_score(self, candidate: Candidate):
+        match candidate.experience:
+            case experience if experience > 7:
+                return 10
+            case experience if 5 < experience <= 7:
+                return 8
+            case experience if 3 <= experience <= 5:
+                return 6
+            case experience if 1 <= experience < 3:
+                return 4
+            case _:
+                return 0
+
+    def get_age_score(self, candidate: Candidate):
+        match candidate.age:
+            case age if age >= 60:
+                return 3
+            case age if 50 <= age < 60:
+                return 5
+            case age if 40 <= age < 50:
+                return 6
+            case age if 30 <= age < 40:
+                return 7
+            case age if 20 <= age < 30:
+                return 8
+            case age if age < 20:
+                return 10
+            case _:
+                return 0
 
     def print_candidates(self, candidates: list[Candidate]):
         for candidate in candidates:
